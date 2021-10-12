@@ -1,5 +1,6 @@
 package utils;
 
+import com.dza.dserver.utils.PropertyUtil;
 import org.junit.Test;
 
 public class PropertyUtilTest {
