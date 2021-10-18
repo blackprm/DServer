@@ -2,6 +2,9 @@ package com.dza.dserver.request;
 
 
 
+import com.dza.dserver.cookie.Cookie;
+import com.dza.dserver.enumeration.ContentType;
+import com.dza.dserver.enumeration.HttpMethod;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.slf4j.Logger;
@@ -15,16 +18,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dza.dserver.cookie.Cookie;
-import com.dza.dserver.enumeration.ContentType;
-import com.dza.dserver.enumeration.HttpMethod;
-
 public class HttpRequest {
     public static Logger logger = LoggerFactory.getLogger(HttpRequest.class);
     private HttpMethod method;
     private String requestUrl;
     private String httpProtocol;
     private Cookie[] cookies;
+
+
+
     private HashMap<String,String> getParams = null; // get的参数
     private HashMap<String,String> headers = new HashMap<>();
     private BufferedReader reader = null;
@@ -51,6 +53,8 @@ public class HttpRequest {
         if(cookie == null){
             return;
         }
+
+        logger.info(cookie);
 
         final String[] k_vs = cookie.split(";");
         cookies= new Cookie[k_vs.length];
@@ -124,7 +128,12 @@ public class HttpRequest {
     }
 
 
+    /**====================================*/
 
 
+
+    public HashMap<String, String> getGetParams() {
+        return getParams;
+    }
 
 }

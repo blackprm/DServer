@@ -42,8 +42,6 @@ public class DServerBootstrap {
             if(command.equals("EXIT")){
                 logger.info("收到退出指令!即将退出！");
                 server.shutdown();
-
-
             }
         }
 

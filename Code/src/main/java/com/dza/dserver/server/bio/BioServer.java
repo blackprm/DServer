@@ -1,15 +1,17 @@
 package com.dza.dserver.server.bio;
 
-import com.dza.dserver.constant.FinalString;
+import com.dza.dserver.enumeration.ContentType;
+import com.dza.dserver.reponse.HttpResponse;
 import com.dza.dserver.request.HttpRequest;
+import com.dza.dserver.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.dza.dserver.server.Server;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 
 public class BioServer extends Server {
     private static Logger logger = LoggerFactory.getLogger(BioServer.class);
@@ -33,30 +35,27 @@ public class BioServer extends Server {
                         final Socket client = server.accept();
                         final HttpRequest httpRequest = new HttpRequest(client.getInputStream());
                         logger.info("接收到一个http连接，解析完毕");
-                        client.getOutputStream().write("HTTP/1.1 200 ok".getBytes(StandardCharsets.UTF_8));
-                        client.getOutputStream().write(FinalString.CRLF.getString().getBytes(StandardCharsets.UTF_8));
+                        final HttpResponse httpResponse = new HttpResponse(client.getOutputStream());
+                        httpResponse.setAllowCrossDomain(true);
+                        final FileInputStream in = new FileInputStream(new File("D:\\CODE\\java\\DServer\\Code\\abc.png"));
 
-                        client.getOutputStream().write("Connection: close".getBytes(StandardCharsets.UTF_8));
-                        client.getOutputStream().write(FinalString.CRLF.getString().getBytes(StandardCharsets.UTF_8));
 
-                        client.getOutputStream().write("Content-Length: 0".getBytes(StandardCharsets.UTF_8));
-                        client.getOutputStream().write(FinalString.CRLF.getString().getBytes(StandardCharsets.UTF_8));
+                        final byte[] bytes = new byte[in.available()];
+                        final int read = in.read(bytes);
+                        httpResponse.setDataLength(read);
+                        httpResponse.setContentType(ContentType.PNG);
 
-                        client.getOutputStream().write("access-Control-Allow-Credentials: true".getBytes(StandardCharsets.UTF_8));
-                        client.getOutputStream().write(FinalString.CRLF.getString().getBytes(StandardCharsets.UTF_8));
+                        final byte[] bytes1 = httpResponse.buildResponse();
 
-                        client.getOutputStream().write("access-control-allow-origin: *".getBytes(StandardCharsets.UTF_8));
-                        client.getOutputStream().write(FinalString.CRLF.getString().getBytes(StandardCharsets.UTF_8));
 
-                        client.getOutputStream().write("access-Control-Allow-Headers: *".getBytes(StandardCharsets.UTF_8));
-                        client.getOutputStream().write(FinalString.CRLF.getString().getBytes(StandardCharsets.UTF_8));
+                        client.getOutputStream().write(bytes1);
+                        client.getOutputStream().write(bytes);
 
-                        client.getOutputStream().write("access-Control-Allow-Methods: *".getBytes(StandardCharsets.UTF_8));
-                        client.getOutputStream().write(FinalString.CRLF.getString().getBytes(StandardCharsets.UTF_8));
-
-                        client.getOutputStream().write(FinalString.CRLF.getString().getBytes(StandardCharsets.UTF_8));
-                        client.getOutputStream().write(FinalString.CRLF.getString().getBytes(StandardCharsets.UTF_8));
                         client.getOutputStream().flush();
+                        client.close();
+
+
+                        logger.info("客户端关闭!");
 
                     } catch (IOException e) {
                         e.printStackTrace();
