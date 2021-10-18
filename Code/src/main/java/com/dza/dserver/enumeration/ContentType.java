@@ -1,5 +1,6 @@
 package com.dza.dserver.enumeration;
 
+
 public enum ContentType {
     JSON("JSON"),
     Nil(null)

@@ -1,12 +1,10 @@
 package com.dza.dserver;
 
+import com.dza.dserver.server.Server;
+import com.dza.dserver.utils.PropertyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.dza.dserver.server.Server;
-import com.dza.dserver.server.bio.BioServer;
-import com.dza.dserver.utils.PropertyUtil;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.Scanner;
@@ -44,6 +42,8 @@ public class DServerBootstrap {
             if(command.equals("EXIT")){
                 logger.info("收到退出指令!即将退出！");
                 server.shutdown();
+
+
             }
         }
 

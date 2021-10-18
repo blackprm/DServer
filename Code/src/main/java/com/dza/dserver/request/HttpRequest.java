@@ -1,18 +1,23 @@
 package com.dza.dserver.request;
 
-import com.dza.dserver.cookie.Cookie;
-import com.dza.dserver.enumeration.ContentType;
-import com.dza.dserver.enumeration.HttpMethod;
+
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.apache.log4j.varia.StringMatchFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.dza.dserver.cookie.Cookie;
+import com.dza.dserver.enumeration.ContentType;
+import com.dza.dserver.enumeration.HttpMethod;
 
 public class HttpRequest {
     public static Logger logger = LoggerFactory.getLogger(HttpRequest.class);
